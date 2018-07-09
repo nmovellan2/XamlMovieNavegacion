@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:XamaFilm.Converters"
+             xmlns:behavior="clr-namespace:XamaFilm.Behaviors"
+             xmlns:ViewModel="clr-namespace:XamaFilm.ViewModels"
+             x:Class="XamaFilm.Views.MenuView"
+             Title="Master">
+    <ContentPage.Resources>
+        <converter:MenuItemToImageConverter x:Key="MenuItemToImageConverter"/>
+        <behavior:ItemTappedCommandListView x:Key="ItemTappedCommandListView"/>
+    </ContentPage.Resources>
+  <StackLayout>
+    <ListView x:Name="MenuItemsListView"
+              SeparatorVisibility="None"
+              HasUnevenRows="true"
+              ItemsSource="{Binding MenuItems}"
+              behavior:ItemTappedCommandListView.ItemTappedCommand="{Binding ItemSelectedCommand}">
+      <ListView.Header>
+                <Grid BackgroundColor="#03A9F4">
+                    <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Image Source="XamaFilm.png" Grid.Column="0" Grid.Row="0"/> <!--Logo F:0 C:0-->
+          <Label Grid.Column="0" Grid.Row="1" Text="XamaFilm" TextColor="White" FontSize="Large"/> <!--Application Name F:1 C:0--> 
+        </Grid>
+      </ListView.Header>
+      <!--Celda personalizada-->
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/> <!--Ocupa lo que necesita-->
+                                <ColumnDefinition Width="*"/> <!--Ocupa resto-->
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding MenuItemType,Converter={StaticResource MenuItemToImageConverter}} "  Grid.Column="0"/>
+                            <Label Text="{Binding Title}" Grid.Column="1"/>
+                        </Grid>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+</ContentPage>
